@@ -1,4 +1,7 @@
+using FileConverter.Core;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace FileConverter.IntegrationTests
 {
@@ -6,13 +9,19 @@ namespace FileConverter.IntegrationTests
     public class FileConverterTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GIVEN_SourceIsInCSVFormat_WHEN_ConvertItToJson_THEN_TargetShouldBeTheCorrect()
         {
             //Arrange
+            var source = $"name,address_line1,address_line2{Environment.NewLine}Dave,Street,Town";
+            var targetFormat = Format.Json;
+
+            var converter = new Core.FileConverter();
 
             //Act
+            var target = converter.Convert(source, targetFormat);
 
             //Assert
+            target.Should().Be("{ name: Dave, address: { line1: Street, line2: Town } }");
 
         }
     }
