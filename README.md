@@ -13,14 +13,17 @@ different source, e.g. a database.
 - The headings should form keys in the XML or JSON output
 - Underscores should be used to group headings, e.g.:
 
-> name,address_line1,address_line2
-> Dave,Street,Town
-> should convert to
 
-> {
-> name: Dave,
-> address: {
-> line1: Street,
-> line2: Town
->}
->}
+name,address_line1,address_line2
+
+Dave,Street,Town
+
+ should convert to
+
+  {
+    name: Dave,
+    address: {
+      line1: Street,
+      line2: Town
+    }
+  }
