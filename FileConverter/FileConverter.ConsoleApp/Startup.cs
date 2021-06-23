@@ -9,6 +9,7 @@ namespace FileConverter.ConsoleApp
         {
             var serviceCollection = new ServiceCollection();
 
+            serviceCollection.AddSingleton<IFileConverter, Core.FileConverter>();
 
             return serviceCollection;
         }
