@@ -21,13 +21,45 @@ namespace FileConverter.Core.Converters
 
             for (int i = 0; i < properties.Length; i++)
             {
-                model.Add(properties[i], values[i]);
+                AddPropertyToModel(model, properties[i], values[i]);
             }
 
             return model;
 
-        }
+            void AddPropertyToModel(Dictionary<string, object> modelToAdd, string propertyName, string properyValue)
+            {
+                if (!propertyName.Contains("_"))
+                {
+                    modelToAdd.Add(propertyName, properyValue);
+                    return;
+                }
 
+                var parentPropertyName = propertyName.Split('_')[0];
+                var childPropertyName = propertyName.Replace($"{parentPropertyName}_", string.Empty);
+
+                if (!modelToAdd.ContainsKey(parentPropertyName))
+                {
+                    modelToAdd.Add(parentPropertyName, new Dictionary<string, object>());
+                }
+
+                var childModel = modelToAdd[parentPropertyName];
+
+                if(childModel is string)
+                {
+                    var value = (string)childModel;
+
+                    var newChildModel = new Dictionary<string, object>();
+                    newChildModel.Add(parentPropertyName, value);
+
+                    AddPropertyToModel(newChildModel, childPropertyName, properyValue);
+                    modelToAdd[parentPropertyName] = newChildModel;
+                    return;
+                }
+
+                AddPropertyToModel((Dictionary<string, object>) childModel, childPropertyName, properyValue);
+            }
+        }
+        
         public string ConvertFromIntermediateModel(Dictionary<string, object> source) => string.Empty;
     }
 }
