@@ -31,8 +31,13 @@ namespace FileConverter.Core.Converters
                         continue;
                     }
 
-                    ConvertNode(new Dictionary<string, object>() { { propertyNameValue.Key, propertyNameValue.Value } });
-
+                    if (propertyNameValue.Value is Dictionary<string, object>) 
+                    {
+                        var nextNode = (Dictionary<string, object>)propertyNameValue.Value;
+                        builder.Append("{");
+                        ConvertNode(nextNode);
+                        builder.Append("},");
+                    }
                 }
                 builder.Length--;
             }
