@@ -14,7 +14,28 @@ namespace FileConverter.Core.Converters
 
         public string ConvertFromIntermediateModel(Dictionary<string, object> source)
         {
-            throw new NotImplementedException();
+            var builder = new StringBuilder();
+            builder.Append("{");
+            ConvertNode(source);
+            builder.Append("}");
+            return builder.ToString();
+
+            void ConvertNode(Dictionary<string, object> node)
+            {
+                foreach (var propertyNameValue in node)
+                {
+                    builder.Append($"\"{propertyNameValue.Key}\":");
+                    if (propertyNameValue.Value is string)
+                    {
+                        builder.Append($"\"{propertyNameValue.Value}\",");
+                        continue;
+                    }
+
+                    ConvertNode(new Dictionary<string, object>() { { propertyNameValue.Key, propertyNameValue.Value } });
+
+                }
+                builder.Length--;
+            }
         }
 
         public Dictionary<string, object> ConvertToIntermediateModel(string source)
