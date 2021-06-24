@@ -22,14 +22,20 @@ namespace FileConverter.UnitTests
             //Assert
             intermediateModel.Should().NotBeNull();
 
-            intermediateModel.Should().ContainKey("p1");
-            intermediateModel["p1"].Should().Be("v1");
+            intermediateModel
+                .Should().ContainKey("p1")
+                .WhichValue.Should().BeOfType<string>()
+                .Which.Should().BeEquivalentTo("v1");
 
-            intermediateModel.Should().ContainKey("p2");
-            intermediateModel["p2"].Should().Be("v2");
+            intermediateModel
+                .Should().ContainKey("p2")
+                .WhichValue.Should().BeOfType<string>()
+                .Which.Should().BeEquivalentTo("v2");
 
-            intermediateModel.Should().ContainKey("p3");
-            intermediateModel["p3"].Should().Be("v3");
+            intermediateModel
+                .Should().ContainKey("p3")
+                .WhichValue.Should().BeOfType<string>()
+                .Which.Should().BeEquivalentTo("v3");
         }
 
         [TestMethod]
