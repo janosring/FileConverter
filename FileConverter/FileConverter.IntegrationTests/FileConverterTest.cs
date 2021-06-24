@@ -1,5 +1,6 @@
 using FileConverter.Core;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -15,13 +16,16 @@ namespace FileConverter.IntegrationTests
             var source = $"name,address_line1,address_line2{Environment.NewLine}Dave,Street,Town";
             var targetFormat = Format.Json;
 
-            var converter = new Core.FileConverter();
+            var services = Setup.ConfigureServices();
+            var serviceProvider = services.BuildServiceProvider();
+
+            var converter = serviceProvider.GetService<IFileConverter>();
 
             //Act
             var target = converter.Convert(source, targetFormat);
 
             //Assert
-            target.Should().Be("{ name: Dave, address: { line1: Street, line2: Town } }");
+            target.Should().Be("{\"name\":\"Dave\",\"address\":{\"line1\":\"Street\",\"line2\":\"Town\"}}");
 
         }
     }

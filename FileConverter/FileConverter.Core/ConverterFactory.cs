@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace FileConverter.Core
 {
-    public class ConverterFactory
+    public class ConverterFactory : IConverterFactory
     {
         private readonly JsonConverter _jsonConverter;
         private readonly CsvConverter _csvConverter;
