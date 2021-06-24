@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FileConverter.ConsoleApp": {
+      "commandName": "Project",
+      "commandLineArgs": "abc Json"
+    }
+  }
+}
