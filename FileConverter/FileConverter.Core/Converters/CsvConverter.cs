@@ -22,28 +22,28 @@ namespace FileConverter.Core.Converters
 
             for (int i = 0; i < properties.Length; i++)
             {
-                AddPropertyToModel(model, properties[i], values[i]);
+                ConvertNode(model, properties[i], values[i]);
             }
 
             return model;
 
-            void AddPropertyToModel(Dictionary<string, object> modelToAdd, string propertyName, string properyValue)
+            void ConvertNode(Dictionary<string, object> node, string propertyName, string properyValue)
             {
                 if (!propertyName.Contains("_"))
                 {
-                    modelToAdd.Add(propertyName, properyValue);
+                    node.Add(propertyName, properyValue);
                     return;
                 }
 
                 var parentPropertyName = propertyName.Split('_')[0];
                 var childPropertyName = propertyName.Replace($"{parentPropertyName}_", string.Empty);
 
-                if (!modelToAdd.ContainsKey(parentPropertyName))
+                if (!node.ContainsKey(parentPropertyName))
                 {
-                    modelToAdd.Add(parentPropertyName, new Dictionary<string, object>());
+                    node.Add(parentPropertyName, new Dictionary<string, object>());
                 }
 
-                var childModel = modelToAdd[parentPropertyName];
+                var childModel = node[parentPropertyName];
 
                 if(childModel is string)
                 {
@@ -52,12 +52,12 @@ namespace FileConverter.Core.Converters
                     var newChildModel = new Dictionary<string, object>();
                     newChildModel.Add(parentPropertyName, value);
 
-                    AddPropertyToModel(newChildModel, childPropertyName, properyValue);
-                    modelToAdd[parentPropertyName] = newChildModel;
+                    ConvertNode(newChildModel, childPropertyName, properyValue);
+                    node[parentPropertyName] = newChildModel;
                     return;
                 }
 
-                AddPropertyToModel((Dictionary<string, object>) childModel, childPropertyName, properyValue);
+                ConvertNode((Dictionary<string, object>) childModel, childPropertyName, properyValue);
             }
         }
 
