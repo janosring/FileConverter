@@ -85,5 +85,23 @@ namespace FileConverter.UnitTests
                 .WhichValue.Should().BeOfType<string>()
                 .Which.Should().BeEquivalentTo("v4");
         }
+
+        [TestMethod]
+        public void GIVEN_SourceWithoutChildrenProperties_WHEN_ConvertToCsvFormat_THEN_CsvShouldBeCorrect()
+        {
+            //Arrange
+            var converter = new CsvConverter();
+            var source = new Dictionary<string, object>{
+               {"p1", "v1" },
+               {"p2", "v2" },
+               {"p3", "v3" },
+           };
+
+            //Act
+            var intermediateModel = converter.ConvertFromIntermediateModel(source);
+
+            //Assert
+            intermediateModel.Should().Be($"p1,p2,p3{Environment.NewLine}v1,v2,v3");
+        }
     }
 }
