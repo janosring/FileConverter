@@ -82,7 +82,7 @@ namespace FileConverter.UnitTests
         {
             //Arrange
             var converter = new JsonConverter();
-            var source = "{\"p1\":{\"p1.1\":\"v1.1\",\"p1.2\":\"v1.2\"},\"p2\":\"v2\",\"p3\":\"v3\"}";
+            var source = "{\"p1\":{\"p1p1\":\"v1v1\",\"p1p2\":\"v1v2\"},\"p2\":\"v2\",\"p3\":\"v3\"}";
 
             //Act
             var intermediateModel = converter.ConvertToIntermediateModel(source);
@@ -92,31 +92,25 @@ namespace FileConverter.UnitTests
 
             intermediateModel
                 .Should().ContainKey("p1")
-                .WhichValue.Should().BeOfType<string>()
-                .Which.Should().BeEquivalentTo("v1");
+                .WhichValue.Should().BeOfType<Dictionary<string, object>>()
+                .Which.Should().ContainKey("p1p1")
+                .WhichValue.Should().BeEquivalentTo("v1v1");
+
+            intermediateModel
+                .Should().ContainKey("p1")
+                .WhichValue.Should().BeOfType<Dictionary<string, object>>()
+                .Which.Should().ContainKey("p1p2")
+                .WhichValue.Should().BeEquivalentTo("v1v2");
 
             intermediateModel
                 .Should().ContainKey("p2")
-                .WhichValue.Should().BeOfType<Dictionary<string, object>>()
-                .Which.Should().ContainKey("p2p1")
-                .WhichValue.Should().BeEquivalentTo("v2.1");
-
-            intermediateModel
-                .Should().ContainKey("p2")
-                .WhichValue.Should().BeOfType<Dictionary<string, object>>()
-                .Which.Should().ContainKey("p2p2")
-                .WhichValue.Should().BeEquivalentTo("v2.2");
-
-            intermediateModel
-               .Should().ContainKey("p3")
-                .WhichValue.Should().BeOfType<Dictionary<string, object>>()
-                .Which.Should().ContainKey("p3p1")
-                .WhichValue.Should().BeEquivalentTo("v3.1");
-
-            intermediateModel
-                .Should().ContainKey("p4")
                 .WhichValue.Should().BeOfType<string>()
-                .Which.Should().BeEquivalentTo("v4");
+                .Which.Should().BeEquivalentTo("v2");
+
+            intermediateModel
+                .Should().ContainKey("p3")
+                .WhichValue.Should().BeOfType<string>()
+                .Which.Should().BeEquivalentTo("v3");
 
         }
     }

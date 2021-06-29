@@ -34,7 +34,7 @@ namespace FileConverter.IntegrationTests
         {
             //Arrange
             var source = "{\"name\":\"Dave\",\"address\":{\"line1\":\"Street\",\"line2\":\"Town\"}}";
-            var targetFormat = Format.Json;
+            var targetFormat = Format.Csv;
 
             var services = Setup.ConfigureServices();
             var serviceProvider = services.BuildServiceProvider();
@@ -45,7 +45,7 @@ namespace FileConverter.IntegrationTests
             var target = converter.Convert(source, targetFormat);
 
             //Assert
-            target.Should().Be("name,address_line1,address_line2{Environment.NewLine}Dave,Street,Town");
+            target.Should().Be($"name,address_line1,address_line2{Environment.NewLine}Dave,Street,Town");
 
         }
     }
