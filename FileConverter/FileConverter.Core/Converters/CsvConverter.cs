@@ -89,7 +89,8 @@ namespace FileConverter.Core.Converters
                     }
                     else 
                     {
-                        ConvertNode(node, propertyName);
+                        var childNode = (Dictionary<string, object>) propertyNameValue.Value;
+                        ConvertNode(childNode, propertyName);
                     }
                 }
             }
