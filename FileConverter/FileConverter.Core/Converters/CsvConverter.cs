@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace FileConverter.Core.Converters
@@ -59,7 +60,39 @@ namespace FileConverter.Core.Converters
                 AddPropertyToModel((Dictionary<string, object>) childModel, childPropertyName, properyValue);
             }
         }
-        
-        public string ConvertFromIntermediateModel(Dictionary<string, object> source) => string.Empty;
+
+        public string ConvertFromIntermediateModel(Dictionary<string, object> source) 
+        {
+            var firstLineBuilder = new StringBuilder();
+            var secondLineBuilder = new StringBuilder();
+
+            ConvertNode(source, string.Empty);
+
+            firstLineBuilder.Length--;
+            secondLineBuilder.Length--;
+
+            return $"{firstLineBuilder}{Environment.NewLine}{secondLineBuilder}";
+
+            void ConvertNode(Dictionary<string, object> node, string parentNodeName)
+            {
+                foreach (var propertyNameValue in node)
+                {
+                    var propertyName = string.IsNullOrEmpty(parentNodeName)
+                            ? propertyNameValue.Key
+                            : $"{parentNodeName}_{propertyNameValue.Key}";
+
+                    if (propertyNameValue.Value is string)
+                    {
+                        
+                        firstLineBuilder.Append($"{propertyName},");
+                        secondLineBuilder.Append($"{propertyNameValue.Value},");
+                    }
+                    else 
+                    {
+                        ConvertNode(node, propertyName);
+                    }
+                }
+            }
+        }
     }
 }
