@@ -28,5 +28,25 @@ namespace FileConverter.IntegrationTests
             target.Should().Be("{\"name\":\"Dave\",\"address\":{\"line1\":\"Street\",\"line2\":\"Town\"}}");
 
         }
+
+        [TestMethod]
+        public void GIVEN_SourceIsInJsonFormat_WHEN_ConvertItToCsv_THEN_TargetShouldBeTheCorrect()
+        {
+            //Arrange
+            var source = "{\"name\":\"Dave\",\"address\":{\"line1\":\"Street\",\"line2\":\"Town\"}}";
+            var targetFormat = Format.Json;
+
+            var services = Setup.ConfigureServices();
+            var serviceProvider = services.BuildServiceProvider();
+
+            var converter = serviceProvider.GetService<IFileConverter>();
+
+            //Act
+            var target = converter.Convert(source, targetFormat);
+
+            //Assert
+            target.Should().Be("name,address_line1,address_line2{Environment.NewLine}Dave,Street,Town");
+
+        }
     }
 }
