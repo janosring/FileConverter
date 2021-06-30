@@ -24,9 +24,17 @@ namespace FileConverter.Core.Converters
             {
                 foreach (var propertyNameValue in node)
                 {
-                    stingBuilder.Append($"<{propertyNameValue.Key}>");                    
+                    stingBuilder.Append($"<{propertyNameValue.Key}>");
 
-                    stingBuilder.Append(propertyNameValue.Value);
+                    if (propertyNameValue.Value is string)
+                    {
+                        stingBuilder.Append(propertyNameValue.Value);
+                    }
+                    else
+                    {
+                        stingBuilder.Append(Environment.NewLine);
+                        ConvertNode((Dictionary<string, object>)propertyNameValue.Value);
+                    }
 
                     stingBuilder.Append($"</{propertyNameValue.Key}>");
                     stingBuilder.Append(Environment.NewLine);
