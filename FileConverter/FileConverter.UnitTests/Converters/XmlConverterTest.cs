@@ -14,7 +14,7 @@ namespace FileConverter.UnitTests
         public void GIVEN_SourceWithoutChildrenProperties_WHEN_ConvertToXmlFormat_THEN_XmlShouldBeCorrect()
         {
             //Arrange
-            var converter = new CsvConverter();
+            var converter = new XmlConverter();
             var source = new Dictionary<string, object>{
                {"p1", "v1" },
                {"p2", "v2" },
@@ -33,7 +33,7 @@ namespace FileConverter.UnitTests
         public void GIVEN_SourceWithChildrenProperties_WHEN_ConvertToXmlFormat_THEN_XmlShouldBeCorrect()
         {
             //Arrange
-            var converter = new CsvConverter();
+            var converter = new XmlConverter();
             var source = new Dictionary<string, object>()
             {
                 {"p1", "v1"},
