@@ -26,7 +26,7 @@ namespace FileConverter.UnitTests
 
             //Assert
             intermediateModel.Should()
-                .Be($"<?xml version=\"1.0\" encoding=\"UTF - 8\"?>{Environment.NewLine}<root>{Environment.NewLine}<p1>v1</p1>{Environment.NewLine}<p2>v2</p2>{Environment.NewLine}<p3>v3</p3>{Environment.NewLine}</root>");
+                .Be($"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>{Environment.NewLine}<root>{Environment.NewLine}<p1>v1</p1>{Environment.NewLine}<p2>v2</p2>{Environment.NewLine}<p3>v3</p3>{Environment.NewLine}</root>");
         }
 
         [TestMethod]
